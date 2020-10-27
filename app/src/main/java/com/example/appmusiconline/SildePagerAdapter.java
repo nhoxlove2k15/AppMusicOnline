@@ -13,6 +13,7 @@ import com.example.appmusiconline.Fragment.Fragment_getstart_2;
 
 import java.util.List;
 // day la test pull
+// day la test pull 2 
 public class SildePagerAdapter extends FragmentPagerAdapter {
 
 // hello howkteam
