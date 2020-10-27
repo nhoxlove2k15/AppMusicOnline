@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="190dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+
+    android:layout_marginRight="20dp"
+
+    android:layout_gravity="center">
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/LinearViewCardSong"
+        android:layout_width="wrap_content"
+        android:background="#8BE17D"
+
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="160dp"
+            android:layout_height="150dp"
+            android:scaleType="fitXY"
+            android:id="@+id/imgSong"/>
+        <TextView
+            android:textColor="#999CA8A8"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="200dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:id="@+id/txtSongName"
+            android:text="Phia sau 1 co xxxxxxxxxxx axcv "
+            android:textSize="15dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="200dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:id="@+id/txtSongArtist"
+            android:text="Soobin hoang son"
+            android:textSize="15dp"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
