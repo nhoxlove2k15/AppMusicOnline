@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SildePagerAdapter extends FragmentPagerAdapter {
 
-
+// hello howkteam
     public SildePagerAdapter(@NonNull  FragmentManager fm){
         super(fm);
     }
