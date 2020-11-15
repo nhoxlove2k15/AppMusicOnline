@@ -37,7 +37,7 @@ import me.relex.circleindicator.CircleIndicator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
+
 
 
 
@@ -67,12 +67,14 @@ public class Fragment_Album extends Fragment {
 
         // add fragment into a fragment
             final FragmentManager fragmentManager = getChildFragmentManager() ;
-            final Fragment nestedFragment = new Fragment_hottrend();
+            final Fragment fragmentHottrend = new Fragment_hottrend();
+           // final Fragment color = new Fragment_Color();
+          final  Fragment fragmentPersonal = new Fragment_personal();
+          final Fragment fragmentExplore = new Fragment_Explore() ;
 
-            final  Fragment fragmentColor = new Fragment_Color();
             final Fragment fragmentStart = new Fragment_getstart();
             final FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.add(R.id.textxyz , nestedFragment) ;
+            transaction.add(R.id.textxyz , fragmentHottrend) ;
 
 
             transaction.commit();
@@ -85,10 +87,24 @@ public class Fragment_Album extends Fragment {
         viewPagerMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (position == 1 ) {
+                if (position == 0 ){
                     FragmentTransaction transaction1 = fragmentManager.beginTransaction();
 
-                    transaction1.replace(R.id.textxyz, fragmentColor).commit();
+                    transaction1.replace(R.id.textxyz, fragmentHottrend).commit();
+                    fragmentManager.popBackStack();
+                }
+                else if (position == 1 ) {
+                    FragmentTransaction transaction2 = fragmentManager.beginTransaction();
+
+                    transaction2.replace(R.id.textxyz, fragmentPersonal).commit();
+                    fragmentManager.popBackStack();
+                }
+                else if (position == 2) {
+                    FragmentTransaction transaction3 = fragmentManager.beginTransaction();
+
+                    transaction3.replace(R.id.textxyz, fragmentExplore).commit();
+                    fragmentManager.popBackStack();
+
                 }
             }
 

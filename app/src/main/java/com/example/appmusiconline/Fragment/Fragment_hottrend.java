@@ -133,7 +133,8 @@ public class Fragment_hottrend extends Fragment {
                     public void run() {
                         currentItem = viewPager.getCurrentItem();
                         currentItem ++ ;
-                        if ( currentItem >= viewPager.getAdapter().getCount()){
+                        // viewPager.getAdapter().getCount()
+                        if ( currentItem >= 2){
                             currentItem = 0 ;
                         }
                         viewPager.setCurrentItem(currentItem , true );

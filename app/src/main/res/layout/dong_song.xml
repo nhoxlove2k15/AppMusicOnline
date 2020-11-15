@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:id="@+id/LinearViewCardSong"
         android:layout_width="wrap_content"
-        android:background="#8BE17D"
+        android:background="#FFFF"
 
         android:layout_height="wrap_content">
         <ImageView
