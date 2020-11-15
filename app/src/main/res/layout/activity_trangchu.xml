@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:scrollbars="none"
     android:fillViewport="true"
-    android:background="#8BE17D"
+    android:background="#FFF"
+
 
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
@@ -16,6 +17,7 @@
             android:id="@+id/fragmentAlbum"
             android:name="com.example.appmusiconline.Fragment.Fragment_Album"
             android:layout_height="wrap_content"/>
+<!--        android:background="#8BE17D"-->
 <!--        <fragment-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->

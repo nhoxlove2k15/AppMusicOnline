@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/txt6"
-        android:background="#8BE17D"
+        android:background="#FFF"
         android:id="@+id/recycleViewSong"/>
 
 </RelativeLayout>
