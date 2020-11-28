@@ -7,6 +7,23 @@
     android:layout_height="match_parent"
     android:background="@drawable/back_ground_get_start">
 
+<!--    <com.jetradarmobile.snowfall.SnowfallView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:snowflakeAlphaMax="255"-->
+<!--        app:snowflakeAlphaMin="150"-->
+<!--        app:snowflakeAngleMax="5"-->
+<!--        app:snowflakeSizeMax="32dp"-->
+<!--        app:snowflakeSizeMin="8dp"-->
+<!--        app:snowflakeSpeedMax="12"-->
+<!--        app:snowflakeSpeedMin="4"-->
+<!--        app:snowflakesAlreadyFalling="false"-->
+<!--        app:snowflakesFadingEnabled="true"-->
+<!--        app:snowflakesNum="250" />-->
+
+
     <ImageView
         android:id="@+id/imgLogoNit_1"
         android:layout_width="269dp"
@@ -55,6 +72,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt2"
         app:layout_constraintVertical_bias="0.75" />
+    <com.ivorcho.snowfallview.SnowfallView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:snowflake="@drawable/snowflake"
+        app:spawnRate="1000" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
