@@ -23,6 +23,7 @@
             android:layout_weight="1"
             android:layout_height="50dp"
             android:id="@+id/btnSearch"
+
             android:src="@drawable/search_button"
 
             />
@@ -37,6 +38,13 @@
                 android:layout_weight="1"
                 android:src="@drawable/user"/>
         </LinearLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/edtSearch"
+
+
+            android:visibility="gone"/>
 <!--        <androidx.viewpager.widget.ViewPager-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="40dp"-->
@@ -48,6 +56,7 @@
             android:layout_height="40dp"
             android:layout_below="@id/linearLayout"
             android:id="@+id/viewPagerMain"/>
+
 <!--        <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="20dp"-->
@@ -76,8 +85,17 @@
             android:id="@+id/textxyz"
             android:layout_width="401dp"
             android:layout_height="wrap_content"
+
             android:layout_below="@+id/indicatorMain" >
         </RelativeLayout>
+        <com.ivorcho.snowfallview.SnowfallView
+            android:layout_width="match_parent"
+            android:layout_height="700dp"
+            android:layout_below="@+id/btnSearch"
+
+            app:snowflake="@drawable/snowflake"
+            app:spawnRate="1000" />
+
         <!--        <fragment-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->

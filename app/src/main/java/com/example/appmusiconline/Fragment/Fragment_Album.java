@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -46,6 +48,8 @@ public class Fragment_Album extends Fragment {
     CircleIndicator circleIndicatorMain ;
     ViewPager viewPagerMain ;
     Fragment ft1 , ft2 ;
+    ImageView btnSearch ;
+    EditText edtSearch ;
 
 
 
@@ -74,13 +78,20 @@ public class Fragment_Album extends Fragment {
 
             final Fragment fragmentStart = new Fragment_getstart();
             final FragmentTransaction transaction = fragmentManager.beginTransaction();
+            final Fragment fragmentTimKiem = new Fragment_Timkiem();
             transaction.add(R.id.textxyz , fragmentHottrend) ;
 
 
             transaction.commit();
 
+            btnSearch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentTransaction transaction1 = fragmentManager.beginTransaction();
 
-
+                    transaction1.replace(R.id.textxyz, fragmentTimKiem).commit();
+                }
+            });
 
 
         // event _ viewpager
@@ -129,6 +140,9 @@ public class Fragment_Album extends Fragment {
      //   recyclerViewMain = view.findViewById(R.id.recycleViewMain);
         circleIndicatorMain = view.findViewById(R.id.indicatorMain);
       //  ft1 = view.findViewById(R.id.fragmentHottrend);
+
+        btnSearch = view.findViewById(R.id.btnSearch);
+        edtSearch = view.findViewById(R.id.edtSearch);
 
     }
 
