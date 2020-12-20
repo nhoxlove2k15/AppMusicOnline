@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,8 +20,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.appmusiconline.Activity.LoginActivity;
 import com.example.appmusiconline.Adapter.AlbumAdapter;
+import com.example.appmusiconline.Adapter.AlbumAdapterGridView;
 import com.example.appmusiconline.Adapter.MainAdapter;
 import com.example.appmusiconline.Adapter.SongAdapter;
+import com.example.appmusiconline.Adapter.SongAdapterGridView;
 import com.example.appmusiconline.Model.AlbumAndArtist;
 import com.example.appmusiconline.Model.SongAndArtist;
 import com.example.appmusiconline.R;
@@ -44,6 +48,11 @@ public class Fragment_hottrend extends Fragment {
     int currentItem ;
     static RecyclerView recyclerViewSong ;
     SongAdapter songAdapter ;
+    ImageView imgSeeTrendingAlbums , imgSeeTrendingSongs ;
+    GridView gridViewAlbums , gridViewSongs ;
+    AlbumAdapterGridView albumAdapterGridView ;
+    SongAdapterGridView songAdapterGridView ;
+
 
 
 
@@ -74,6 +83,23 @@ public class Fragment_hottrend extends Fragment {
         });
         getData();
         getSong();
+
+        imgSeeTrendingSongs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (gridViewSongs.getVisibility() == View.GONE) {
+                    gridViewSongs.setVisibility(View.VISIBLE);
+                    recyclerViewSong.setVisibility(View.GONE);
+
+
+
+                }
+                else {
+                    gridViewSongs.setVisibility(View.GONE);
+                    recyclerViewSong.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         return view;
     }
 
@@ -92,6 +118,8 @@ public class Fragment_hottrend extends Fragment {
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 recyclerViewSong.setLayoutManager(linearLayoutManager);
                 recyclerViewSong.setAdapter(songAdapter);
+                songAdapterGridView = new SongAdapterGridView(getActivity(),R.layout.dong_song_gridview , songArrayList) ;
+                gridViewSongs.setAdapter(songAdapterGridView);
             }
 
             @Override
@@ -108,6 +136,10 @@ public class Fragment_hottrend extends Fragment {
         viewPager = view.findViewById(R.id.viewPagerHotTrend);
         // circleIndicator = view.findViewById(R.id.indicatorHotTrend);
         recyclerViewSong = view.findViewById(R.id.recycleViewSong) ;
+        imgSeeTrendingAlbums = view.findViewById(R.id.imgSeeTrendingAlbums) ;
+        imgSeeTrendingSongs = view.findViewById(R.id.imgSeeTrendingSongs) ;
+        gridViewAlbums = view.findViewById(R.id.gridViewTrendingAlbums) ;
+        gridViewSongs = view.findViewById(R.id.gridViewTrendingSongs) ;
 
 
     }
@@ -126,6 +158,8 @@ public class Fragment_hottrend extends Fragment {
                 albumAdapter = new AlbumAdapter(getActivity() , albums_arr);
                 viewPager.setAdapter(albumAdapter);
                 //  circleIndicator.setViewPager(viewPager);
+                albumAdapterGridView = new AlbumAdapterGridView(getActivity() , R.layout.dong_album_personal_gridview , albums_arr) ;
+                gridViewAlbums.setAdapter(albumAdapterGridView) ;
 
                 handler = new Handler();
                 runable = new Runnable() {

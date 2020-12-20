@@ -30,7 +30,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:text="My playlist"
-                android:textSize="24dp"
+                android:textSize="@dimen/song_name"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="#0a0a0a"
                 android:id="@+id/txtPersonalPlaylistName"
                 android:layout_height="wrap_content"/>
             <TextView
@@ -39,8 +42,10 @@
                 android:layout_below="@+id/txtPersonalPlaylistName"
                 android:text="16 songs"
                 android:id="@+id/txtPersonalPlaylistSum"
-                android:layout_marginLeft="10dp"
-                android:textSize="15dp"/>
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="#0a0a0a"
+                android:textSize="@dimen/song_artist"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,7 +53,8 @@
                 android:layout_marginRight="30dp"
                 android:id="@+id/txtPersonalPlaylistTime"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="20dp" />
+                android:textSize="@dimen/song_time"
+                android:layout_marginTop="25dp" />
         </RelativeLayout>
 
     </LinearLayout>

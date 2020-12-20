@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -60,13 +61,18 @@ public class Fragment_Album extends Fragment {
         mapping();
 
         ArrayList<String> arr_String = new ArrayList<>();
-        arr_String.add("Hot trends") ;
-        arr_String.add("Personal");
-        arr_String.add("Exploxer") ;
+        String hottrends = getResources().getString(R.string.hottrend) ;
+        String personal = getResources().getString(R.string.personal) ;
+        String explore = getResources().getString(R.string.explore) ;
+//        arr_String.add("Hot trends") ;
+//        arr_String.add("Personal");
+//        arr_String.add("Exploxer") ;
+        arr_String.add(hottrends);
+        arr_String.add(personal);
+        arr_String.add(explore);
         MainAdapter mainAdapter = new MainAdapter(getActivity() , arr_String);
         viewPagerMain.setAdapter(mainAdapter);
         circleIndicatorMain.setViewPager(viewPagerMain);
-
 
 
         // add fragment into a fragment
@@ -88,7 +94,6 @@ public class Fragment_Album extends Fragment {
                 @Override
                 public void onClick(View v) {
                     FragmentTransaction transaction1 = fragmentManager.beginTransaction();
-
                     transaction1.replace(R.id.textxyz, fragmentTimKiem).commit();
                 }
             });
@@ -143,6 +148,8 @@ public class Fragment_Album extends Fragment {
 
         btnSearch = view.findViewById(R.id.btnSearch);
         edtSearch = view.findViewById(R.id.edtSearch);
+
+
 
     }
 

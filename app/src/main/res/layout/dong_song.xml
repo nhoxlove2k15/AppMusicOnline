@@ -23,25 +23,33 @@
             android:background="@drawable/shadow_image"
             android:id="@+id/imgSong"/>
         <TextView
-            android:textColor="#999CA8A8"
+
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="200dp"
             android:maxLines="1"
-            android:ellipsize="end"
+
             android:id="@+id/txtSongName"
+            android:textSize="@dimen/song_name"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textColor="#0a0a0a"
             android:text="Phia sau 1 co xxxxxxxxxxx axcv "
-            android:textSize="15dp"/>
+           />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="200dp"
             android:maxLines="1"
-            android:ellipsize="end"
+
             android:id="@+id/txtSongArtist"
+            android:textSize="@dimen/song_artist"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textColor="#0a0a0a"
             android:text="Soobin hoang son"
-            android:textSize="15dp"/>
+            />
 
     </LinearLayout>
 

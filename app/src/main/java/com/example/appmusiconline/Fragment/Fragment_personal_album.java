@@ -5,13 +5,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.appmusiconline.Adapter.PersonalAlbumAdapter;
+import com.example.appmusiconline.Adapter.PersonalAlbumAdapterGridView;
 import com.example.appmusiconline.Adapter.PersonalSongAdapter;
 import com.example.appmusiconline.Model.PersonalAlbum;
 import com.example.appmusiconline.Model.PersonalSong;
@@ -31,7 +34,9 @@ public class Fragment_personal_album extends Fragment {
 
     View view ;
     ListView lvPersonalAlbum ;
+    GridView gridView;
     PersonalAlbumAdapter adapter;
+    PersonalAlbumAdapterGridView gridviewAdapter ;
 
     @Nullable
     @Override
@@ -39,12 +44,27 @@ public class Fragment_personal_album extends Fragment {
         view = inflater.inflate(R.layout.fragment_personal_album , container , false );
         mapping();
         getPersonalAlbum();
+        Fragment_personal.imgPersonalSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(lvPersonalAlbum.getVisibility() == View.VISIBLE) {
+                    lvPersonalAlbum.setVisibility(View.GONE);
+                    gridView.setVisibility(View.VISIBLE);
+                }
+                else{
+                    lvPersonalAlbum.setVisibility(View.VISIBLE);
+                    gridView.setVisibility(View.GONE);
+                }
+                Toast.makeText(getActivity(), "ALBUM", Toast.LENGTH_SHORT).show();
+            }
+        });
         return view ;
     }
 
     private void mapping() {
 
         lvPersonalAlbum = view.findViewById(R.id.lvPersonalAlbum);
+        gridView = view.findViewById(R.id.personalGridView);
     }
 
     private void getPersonalAlbum() {
@@ -57,6 +77,8 @@ public class Fragment_personal_album extends Fragment {
 
                 ArrayList<PersonalAlbum> albumArrayList = (ArrayList<PersonalAlbum>) response.body();
                 Collections.shuffle(albumArrayList);
+                gridviewAdapter = new PersonalAlbumAdapterGridView(getActivity() , R.layout.dong_album_personal_gridview , albumArrayList);
+                gridView.setAdapter(gridviewAdapter);
                 adapter = new PersonalAlbumAdapter(getActivity(), R.layout.dong_album_personal, albumArrayList);
                 lvPersonalAlbum.setAdapter(adapter);
                 Log.d("bbb", "Sucesss!");
