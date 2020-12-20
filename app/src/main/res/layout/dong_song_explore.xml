@@ -32,7 +32,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:text="Right now"
-                android:textSize="24dp"
+                android:textSize="@dimen/song_name"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="#0a0a0a"
                 android:id="@+id/txtExploreSongName"
                 android:layout_height="wrap_content"/>
             <TextView
@@ -41,16 +44,23 @@
                 android:layout_below="@+id/txtExploreSongName"
                 android:text="One direction"
                 android:id="@+id/txtExploreSongArtist"
-                android:layout_marginLeft="10dp"
-                android:textSize="15dp"/>
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="#0a0a0a"
+                android:textSize="@dimen/song_artist"/>
+
             <TextView
+                android:id="@+id/txtExploreSongTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4:30"
                 android:layout_marginLeft="50dp"
-                android:id="@+id/txtExploreSongTime"
-                android:layout_toRightOf="@+id/txtExploreSongName"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="49dp"
+                android:layout_toStartOf="@+id/imgHeart"
+
+                android:text="4:30"
+                android:textSize="@dimen/song_time" />
+
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"

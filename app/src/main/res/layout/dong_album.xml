@@ -29,6 +29,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Gangamstyle"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textColor="#0a0a0a"
 
         android:layout_below="@+id/cardView"
         android:textStyle="bold"
@@ -40,6 +43,10 @@
         android:id="@+id/txtAlbumArtist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textColor="#0a0a0a"
         android:text="PSY"
         android:textSize="18dp"
         android:gravity="center"

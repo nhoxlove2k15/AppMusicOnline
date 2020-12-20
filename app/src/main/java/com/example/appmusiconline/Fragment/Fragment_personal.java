@@ -5,15 +5,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.appmusiconline.Adapter.PersonalSongAdapter;
+import com.example.appmusiconline.Adapter.PersonalSongAdapterGridView;
 import com.example.appmusiconline.Adapter.PersonalViewPagerAdapter;
 import com.example.appmusiconline.Adapter.SongAdapter;
 import com.example.appmusiconline.Model.PersonalSong;
@@ -35,6 +40,9 @@ public class Fragment_personal extends Fragment {
     View view;
     ViewPager viewPager ;
     TabLayout tabLayout ;
+    static public ImageView imgPersonalSort ;
+
+
 
 
 
@@ -46,6 +54,11 @@ public class Fragment_personal extends Fragment {
         mapping();
         init();
        // getPersonalSong() ;
+
+
+
+
+
         return view;
     }
 
@@ -53,9 +66,17 @@ public class Fragment_personal extends Fragment {
 
     private void init() {
         final PersonalViewPagerAdapter adapter = new PersonalViewPagerAdapter(getFragmentManager()) ;
-        adapter.addFragment(new Fragment_personal_song() , "Songs");
-        adapter.addFragment(new Fragment_personal_playlist() , "Playlists ");
-        adapter.addFragment(new Fragment_personal_album() , "Albums");
+        String songs = getResources().getString(R.string.songs) ;
+        String playlists = getResources().getString(R.string.playlists) ;
+        String albums = getResources().getString(R.string.albums) ;
+
+//        adapter.addFragment(new Fragment_personal_song() , "Songs");
+//        adapter.addFragment(new Fragment_personal_playlist() , "Playlists ");
+//        adapter.addFragment(new Fragment_personal_album() , "Albums");
+        adapter.addFragment(new Fragment_personal_song() , songs);
+        adapter.addFragment(new Fragment_personal_playlist() , playlists);
+        adapter.addFragment(new Fragment_personal_album() , albums);
+
         adapter.notifyDataSetChanged();
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -81,11 +102,13 @@ public class Fragment_personal extends Fragment {
 
             }
         });
+
     }
 
     private void mapping() {
         tabLayout = view.findViewById(R.id.myTabLayout) ;
         viewPager = view.findViewById(R.id.myViewPager);
+        imgPersonalSort = view.findViewById(R.id.imgPersonalSort);
      //   lvPersonalSong = (ListView) view.findViewById(R.id.lvPersonalSong) ;
     }
 

@@ -20,7 +20,7 @@
         android:layout_toRightOf="@+id/txt5"
 
         android:layout_marginLeft="120dp"
-
+        android:id="@+id/imgSeeTrendingAlbums"
         android:layout_marginTop="12dp"
         android:src="@drawable/see_all"
         />
@@ -33,6 +33,19 @@
         android:layout_below="@+id/txt5">
 
     </androidx.viewpager.widget.ViewPager>
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/gridViewTrendingAlbums"
+        android:visibility="gone" />
+    <GridView
+        android:layout_marginTop="@dimen/margin_basex2"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:id="@+id/gridViewTrendingSongs"
+        android:numColumns="3"
+        android:layout_below="@+id/imgSeeTrendingSongs"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/border"
@@ -61,6 +74,7 @@
         android:layout_below="@+id/border"
         android:src="@drawable/see_all"
         android:layout_marginLeft="120dp"
+        android:id="@+id/imgSeeTrendingSongs"
         android:layout_marginTop="12dp" />
 
     <androidx.recyclerview.widget.RecyclerView

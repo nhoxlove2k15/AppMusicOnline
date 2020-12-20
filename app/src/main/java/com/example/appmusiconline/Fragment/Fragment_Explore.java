@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -17,7 +18,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.appmusiconline.Adapter.ExplorePlaylistAdapter;
 import com.example.appmusiconline.Adapter.ExploreSongAdapter;
 import com.example.appmusiconline.Adapter.PersonalPlaylistAdapter;
+import com.example.appmusiconline.Adapter.PersonalPlaylistAdapterGridView;
 import com.example.appmusiconline.Adapter.PersonalSongAdapter;
+import com.example.appmusiconline.Adapter.PersonalSongAdapterGridView;
+import com.example.appmusiconline.Adapter.SongAdapterGridView;
 import com.example.appmusiconline.Model.PersonalPlaylist;
 import com.example.appmusiconline.Model.PersonalSong;
 import com.example.appmusiconline.R;
@@ -39,6 +43,9 @@ public class Fragment_Explore extends Fragment {
     ImageView imgNewestSong , imgSeeall ;
     ExploreSongAdapter adapter  ;
     ArrayList<PersonalSong> arr_per_song ;
+    PersonalSongAdapterGridView gridViewAdapter ;
+    GridView gridView ;
+
 
     Runnable runable;
     Handler handler ;
@@ -50,6 +57,20 @@ public class Fragment_Explore extends Fragment {
         mapping();
         getExplorerPlaylist();
         getExplorerSong();
+
+        imgSeeall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lvExploreSong.getVisibility() == View.VISIBLE) {
+                    lvExploreSong.setVisibility(View.GONE);
+                    gridView.setVisibility(View.VISIBLE);
+                }
+                else {
+                    lvExploreSong.setVisibility(View.VISIBLE);
+                    gridView.setVisibility(View.GONE);
+                }
+            }
+        });
         return view ;
     }
     private void  getExplorerPlaylist() {
@@ -62,6 +83,7 @@ public class Fragment_Explore extends Fragment {
 
                 ArrayList<PersonalPlaylist> playlistArrayList = (ArrayList<PersonalPlaylist>) response.body();
                 Collections.shuffle(playlistArrayList);
+
                 ExplorePlaylistAdapter adapter = new  ExplorePlaylistAdapter(getActivity(), playlistArrayList);
                 viewPagerExplore.setAdapter(adapter);
                 handler = new Handler();
@@ -107,6 +129,8 @@ public class Fragment_Explore extends Fragment {
 
                     ArrayList<PersonalSong> songArrayList = (ArrayList<PersonalSong>) response.body();
                     Collections.shuffle(songArrayList);
+                    gridViewAdapter = new PersonalSongAdapterGridView(getActivity() , R.layout.dong_song_personal_gridview , songArrayList);
+                    gridView.setAdapter(gridViewAdapter);
                     adapter = new ExploreSongAdapter(getActivity(), R.layout.dong_song_explore, songArrayList);
                     lvExploreSong.setAdapter(adapter);
                     Log.d("bbb", "Sucesss!");
@@ -132,5 +156,6 @@ public class Fragment_Explore extends Fragment {
         viewPagerExplore = view.findViewById(R.id.viewPagerExplore) ;
         imgNewestSong = view.findViewById(R.id.imgExploreNewestSong) ;
         imgSeeall = view.findViewById(R.id.imgExploreSeeall) ;
+        gridView = view.findViewById(R.id.exploreGridView);
     }
 }

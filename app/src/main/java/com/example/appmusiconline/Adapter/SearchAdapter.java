@@ -43,6 +43,7 @@ public class SearchAdapter extends  RecyclerView.Adapter<SearchAdapter.ViewHolde
                 SongAndArtist object = song_arr.get(position);
                 holder.txtTenbaihat.setText(object.getSongTitle());
                 holder.txtCasi.setText(object.getArtistName());
+//                holder.txtTime.setText(object.get);
         Picasso.with(context).load(object.getSongHinh()).into(holder.imgbaihat);
     }
 
@@ -52,7 +53,7 @@ public class SearchAdapter extends  RecyclerView.Adapter<SearchAdapter.ViewHolde
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView txtTenbaihat , txtCasi ;
+        TextView txtTenbaihat , txtCasi ,txtTime;
         ImageView imgbaihat ,imgluotthich;
 
         public ViewHolder(@NonNull View itemView) {
@@ -60,9 +61,10 @@ public class SearchAdapter extends  RecyclerView.Adapter<SearchAdapter.ViewHolde
             txtTenbaihat = itemView.findViewById(R.id.textViewSearchTenBaiHat);
             txtCasi = itemView.findViewById(R.id.textViewSearchTenCasi) ;
             imgbaihat = itemView.findViewById(R.id.imageSearchBaiHat);
-            imgluotthich = itemView.findViewById(R.id.imageSearchluotthich);
-
-            imgluotthich.setTag(R.drawable.heart_empty);
+//            imgluotthich = itemView.findViewById(R.id.imageSearchluotthich);
+//
+//            imgluotthich.setTag(R.drawable.heart_empty);
+            txtTime = itemView.findViewById(R.id.textViewSearchTime);
 
 
 
@@ -72,26 +74,27 @@ public class SearchAdapter extends  RecyclerView.Adapter<SearchAdapter.ViewHolde
 
                 }
             });
-            imgluotthich.setOnClickListener(new View.OnClickListener() {
-                Drawable myDrawable1 = context.getDrawable(R.drawable.heart_empty);
-                Drawable myDrawable2 = context.getDrawable(R.drawable.heart_fill);
-                final Bitmap myLogo1 = ((BitmapDrawable) myDrawable1).getBitmap();
-                final Bitmap myLogo2 = ((BitmapDrawable) myDrawable2).getBitmap();
-                @Override
-                public void onClick(View v) {
-                    final Bitmap bmap = ((BitmapDrawable)imgluotthich.getDrawable()).getBitmap();
-
-
-                    if(bmap.sameAs(myLogo1))
-                    {
-                        imgluotthich.setImageResource(R.drawable.heart_fill);
-                    }
-                    else if (bmap.sameAs(myLogo2))
-                    {
-                        imgluotthich.setImageResource(R.drawable.heart_empty);
-                    }
-                }
-            });
+            // CLICK vao hinh trai tim roi` chuyen mau
+//            imgluotthich.setOnClickListener(new View.OnClickListener() {
+//                Drawable myDrawable1 = context.getDrawable(R.drawable.heart_empty);
+//                Drawable myDrawable2 = context.getDrawable(R.drawable.heart_fill);
+//                final Bitmap myLogo1 = ((BitmapDrawable) myDrawable1).getBitmap();
+//                final Bitmap myLogo2 = ((BitmapDrawable) myDrawable2).getBitmap();
+//                @Override
+//                public void onClick(View v) {
+//                    final Bitmap bmap = ((BitmapDrawable)imgluotthich.getDrawable()).getBitmap();
+//
+//
+//                    if(bmap.sameAs(myLogo1))
+//                    {
+//                        imgluotthich.setImageResource(R.drawable.heart_fill);
+//                    }
+//                    else if (bmap.sameAs(myLogo2))
+//                    {
+//                        imgluotthich.setImageResource(R.drawable.heart_empty);
+//                    }
+//                }
+//            });
         }
     }
 }
