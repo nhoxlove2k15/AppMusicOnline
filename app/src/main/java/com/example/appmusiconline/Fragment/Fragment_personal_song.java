@@ -36,6 +36,7 @@ public class Fragment_personal_song extends Fragment {
     GridView gridView ;
     PersonalSongAdapter adapter ;
     PersonalSongAdapterGridView adapterGridView ;
+    public  static  int i = 0 ;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

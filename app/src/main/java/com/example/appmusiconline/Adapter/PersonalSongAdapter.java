@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.appmusiconline.Model.PersonalSong;
 import com.example.appmusiconline.R;
@@ -68,6 +69,13 @@ public class PersonalSongAdapter extends BaseAdapter {
         txtArtist.setText(object.getArtistSong());
         txtTime.setText(object.getTimeSong());
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // man hinh play nhac
+                Toast.makeText(context, "123", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Animation animation = AnimationUtils.loadAnimation(context,R.anim.animation_personal_song);
         convertView.startAnimation(animation);
