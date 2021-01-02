@@ -1,8 +1,9 @@
-package com.example.musicapp;
+package com.example.appmusiconline.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -10,116 +11,153 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Random;
+
+import com.example.appmusiconline.Model.PersonalSong;
+import com.example.appmusiconline.R;
+import com.squareup.picasso.Picasso;
 
 public class MusicActivity extends AppCompatActivity {
     TextView txtTitle, txtArtist, txtElapsedTime, txtTotalTime;
     SeekBar progressBar, volumeBar;
+    ImageView coverArt;
     ImageButton btnVolumeOn, btnTimer, btnLyrics;
     ImageButton btnPrevSong, btnNextSong, btnPrev10s, btnNext10s, btnPlay;
     ImageButton btnLike, btnShuffle, btnRepeat, btnShare;
     ImageButton btnClose;
-    MediaPlayer mediaPlayer;
+    public MediaPlayer mediaPlayer;
     AudioManager audioManager;
+    Handler handler = new Handler();
 
-    ArrayList<Song> arraySong;
-    Random rnd = new Random();
-    int position;
+    Intent intent;
+    Bundle bundle ;
+    PersonalSong arraySong ;
 
+    int position = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_music);
 
         mapping();
-        addSong();
+        progressBar.setMax(100);
+
+        intent =   getIntent() ;
+        bundle = intent.getBundleExtra("darkwa1");
+        arraySong = (PersonalSong) bundle.getSerializable("darkwa");
+        txtTitle.setSelected(true);
+        txtArtist.setSelected(true);
+
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        position = rnd.nextInt(arraySong.size());
         initMediaPlayer();
-
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+        }
+        prepareMusic();
         //nhấn nút play
-        btnPlay.setOnClickListener(v -> {
-            if (mediaPlayer.isPlaying()) {
-                //đang phát -> chuyển sang hình play
-                mediaPlayer.pause();
-                btnPlay.setImageResource(R.drawable.play);
-            } else {
-                //đang ngừng -> chuyển sang hình pause
-                mediaPlayer.start();
-                btnPlay.setImageResource(R.drawable.pause_);
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mediaPlayer.isPlaying()) {
+                    //đang phát -> chuyển sang hình play
+                    mediaPlayer.pause();
+                    btnPlay.setImageResource(R.drawable.play);
+                } else {
+                    //đang ngừng -> chuyển sang hình pause
+                    mediaPlayer.start();
+                    btnPlay.setImageResource(R.drawable.pause_);
+                }
+//                //updateTime();
             }
-            //updateTime();
         });
 
-        //nhấn nút next song
-        btnNextSong.setOnClickListener(v -> {
-            position++;
-            if (position > arraySong.size() - 1) {
-                position = 0;
+        //nhấn nút close
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MusicActivity.this, TrangchuActivity.class);
+                startActivity(intent);
             }
-            if (mediaPlayer.isPlaying()) {
-                //nếu đang phát nhạc -> chuyển bài sẽ tự động phát
-                mediaPlayer.stop();
-                initMediaPlayer();
-                mediaPlayer.start();
-                btnPlay.setImageResource(R.drawable.pause_);
-            } else {
-                //nếu đang không phát nhạc -> chuyển bài sẽ không tự động phát
-                initMediaPlayer();
-                btnPlay.setImageResource(R.drawable.play);
-            }
-            //updateTime();
         });
+        //nhấn nút next song
+//        btnNextSong.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                position++;
+//                if (position > arraySong.size() - 1) {
+//                    position = 0;
+//                }
+//                if (mediaPlayer.isPlaying()) {
+//                    //nếu đang phát nhạc -> chuyển bài sẽ tự động phát
+//                    mediaPlayer.stop();
+//                    MusicActivity.this.initMediaPlayer();
+//                    mediaPlayer.start();
+//                    btnPlay.setImageResource(R.drawable.pause_);
+//                } else {
+//                    //nếu đang không phát nhạc -> chuyển bài sẽ không tự động phát
+//                    MusicActivity.this.initMediaPlayer();
+//                    btnPlay.setImageResource(R.drawable.play);
+//                }
+//                //updateTime();
+//            }
+//        });
 
         //nhấn nút previous song
-        btnPrevSong.setOnClickListener(v -> {
-            position--;
-            if (position < 0) {
-                position = arraySong.size() - 1;
-            }
-            if (mediaPlayer.isPlaying()) {
-                //nếu đang phát nhạc -> chuyển bài sẽ tự động phát
-                mediaPlayer.stop();
-                initMediaPlayer();
-                mediaPlayer.start();
-                btnPlay.setImageResource(R.drawable.pause_);
-            } else {
-                //nếu đang không phát nhạc -> chuyển bài sẽ không tự động phát
-                initMediaPlayer();
-                btnPlay.setImageResource(R.drawable.play);
-            }
-            //updateTime();
-        });
+//        btnPrevSong.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                position--;
+//                if (position < 0) {
+//                    position = arraySong.size() - 1;
+//                }
+//                if (mediaPlayer.isPlaying()) {
+//                    //nếu đang phát nhạc -> chuyển bài sẽ tự động phát
+//                    mediaPlayer.stop();
+//                    MusicActivity.this.initMediaPlayer();
+//                    mediaPlayer.start();
+//                    btnPlay.setImageResource(R.drawable.pause_);
+//                } else {
+//                    //nếu đang không phát nhạc -> chuyển bài sẽ không tự động phát
+//                    MusicActivity.this.initMediaPlayer();
+//                    btnPlay.setImageResource(R.drawable.play);
+//                }
+//                //updateTime();
+//            }
+//        });
 
         //tua tới 10s
-        btnNext10s.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 10000); //cộng thêm 10000ms (10s)
-                updateTime();
-            }
-        });
+//        btnNext10s.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 10000); //cộng thêm 10000ms (10s)
+//                updateTime();
+//            }
+//        });
 
         //tua lui 10s
-        btnPrev10s.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 10000); //trừ đi 10000ms (10s)
-                updateTime();
-            }
-        });
+//        btnPrev10s.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 10000); //trừ đi 10000ms (10s)
+//                updateTime();
+//            }
+//        });
 
         //nhấn nút volume
-        btnVolumeOn.setOnClickListener(v -> {
-            if (volumeBar.getProgress() != 0) {
-                mute();
-            } else {    //thanh âm lượng đang ở mức 0 thì unmute
-                unMute();
+        btnVolumeOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (volumeBar.getProgress() != 0) {
+                    MusicActivity.this.mute();
+                } else {    //thanh âm lượng đang ở mức 0 thì unmute
+                    MusicActivity.this.unMute();
+                }
             }
         });
 
@@ -181,6 +219,28 @@ public class MusicActivity extends AppCompatActivity {
         });
     }
 
+    public void prepareMusic() {
+        String url = arraySong.getLinkSong();
+        Toast.makeText(this, "Loading song...", Toast.LENGTH_LONG).show();
+        try {
+            mediaPlayer.setDataSource(url);
+            mediaPlayer.prepareAsync();
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mediaPlayer) {
+                    Picasso.with(MusicActivity.this ).load(arraySong.getImageSong()).into(coverArt);
+                    txtArtist.setText(arraySong.getArtistSong());
+                    txtTitle.setText(arraySong.getNameSong());
+                    txtTotalTime.setText(arraySong.getTimeSong());
+                    mediaPlayer.start();
+                    btnPlay.setImageResource(R.drawable.pause_);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void mute() {
         audioManager = (AudioManager) MusicActivity.this.getSystemService(Context.AUDIO_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -203,55 +263,61 @@ public class MusicActivity extends AppCompatActivity {
         volumeBar.setProgress(10);
     }
 
-    private void updateTime() {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                SimpleDateFormat timeFormat = new SimpleDateFormat("mm:ss");
-                txtElapsedTime.setText(timeFormat.format(mediaPlayer.getCurrentPosition()));
-                progressBar.setProgress(mediaPlayer.getCurrentPosition());
-                mediaPlayer.setOnCompletionListener(mp -> {
-                    position++;
-                    if (position > arraySong.size() - 1) {
-                        position = 0;
-                    }
-                    if (mediaPlayer.isPlaying()) {
-                        mediaPlayer.stop();
-                    }
-                    initMediaPlayer();
-                    mediaPlayer.start();
-                    btnPlay.setImageResource(R.drawable.pause_);
-                    updateTime();
-                });
-                handler.postDelayed(this, 100);
-            }
-        }, 100);
-    }
+//    private void updateTime() {
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                SimpleDateFormat timeFormat = new SimpleDateFormat("mm:ss");
+//                txtElapsedTime.setText(timeFormat.format(mediaPlayer.getCurrentPosition()));
+//                progressBar.setProgress(mediaPlayer.getCurrentPosition());
+//                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        position++;
+//                        if (position > arraySong.size() - 1) {
+//                            position = 0;
+//                        }
+//                        if (mediaPlayer.isPlaying()) {
+//                            mediaPlayer.stop();
+//                        }
+//                        initMediaPlayer();
+//                        mediaPlayer.start();
+//                        btnPlay.setImageResource(R.drawable.pause_);
+//                        updateTime();
+//                    }
+//                });
+//                handler.postDelayed(this, 100);
+//            }
+//        }, 100);
+//    }
 
     private void setTotalTime() {
-        java.text.SimpleDateFormat timeFormat = new SimpleDateFormat("mm:ss");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("mm:ss");
         txtTotalTime.setText(timeFormat.format(mediaPlayer.getDuration()));
         progressBar.setMax(mediaPlayer.getDuration());
     }
 
     private void initMediaPlayer() {
-        mediaPlayer = MediaPlayer.create(MusicActivity.this, arraySong.get(position).getFile());
-        txtTitle.setText(arraySong.get(position).getTitle());
-        txtArtist.setText(arraySong.get(position).getArtist());
-        setTotalTime();
-        updateTime();
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//        mediaPlayer = MediaPlayer.create(MusicActivity.this, arraySong.get(position).getFile());
+//        txtTitle.setText(arraySong.get(position).getTitle());
+//        txtArtist.setText(arraySong.get(position).getArtist());
+//        setTotalTime();
+//        updateTime();
     }
 
-    private void addSong() {
-        arraySong = new ArrayList<>();
-        arraySong.add(new Song("Sweet Dreams", "Eurythmics, Annie Lennox, Dave Stewart", R.raw.sweet_dreams));
-        arraySong.add(new Song("Pumped Up Kicks", "Foster The People", R.raw.pumped_up_kicks));
-        arraySong.add(new Song("Caramelldansen", "Caramella Girls", R.raw.caramelldansen));
-        arraySong.add(new Song("Renai Circulation", "Hanazawa Kana", R.raw.renai_circulation));
-    }
+//    private void addSong() {
+//        arraySong = new ArrayList<>();
+//        arraySong.add(new Song("Sweet Dreams", "Eurythmics, Annie Lennox, Dave Stewart", R.raw.sweet_dreams));
+//        arraySong.add(new Song("Pumped Up Kicks", "Foster The People", R.raw.pumped_up_kicks));
+//        arraySong.add(new Song("Caramelldansen", "Caramella Girls", R.raw.caramelldansen));
+//        arraySong.add(new Song("Renai Circulation", "Hanazawa Kana", R.raw.renai_circulation));
+//    }
 
     public void mapping() {
+        coverArt = findViewById(R.id.thumbnail);
         txtTitle = findViewById(R.id.songTitle);
         txtArtist = findViewById(R.id.artist);
         txtElapsedTime = findViewById(R.id.elapsed_time);

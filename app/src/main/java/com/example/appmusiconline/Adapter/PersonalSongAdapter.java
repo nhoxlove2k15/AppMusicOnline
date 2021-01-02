@@ -1,6 +1,9 @@
 package com.example.appmusiconline.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.appmusiconline.Activity.MusicActivity;
 import com.example.appmusiconline.Model.PersonalSong;
 import com.example.appmusiconline.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class PersonalSongAdapter extends BaseAdapter {
@@ -61,7 +66,7 @@ public class PersonalSongAdapter extends BaseAdapter {
         TextView txtArtist = (TextView) convertView.findViewById(R.id.txtPersonalSongArtist) ;
         TextView txtTime = (TextView) convertView.findViewById(R.id.txtPersonalSongTime);
 
-        PersonalSong object = arr_personal_song.get(position);
+        final PersonalSong object = arr_personal_song.get(position);
 
 
         Picasso.with(context).load(object.getImageSong()).into(imgSong);
@@ -73,7 +78,11 @@ public class PersonalSongAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 // man hinh play nhac
-                Toast.makeText(context, "123", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, MusicActivity.class) ;
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("darkwa", object);
+                intent.putExtra("darkwa1", bundle);
+                context.startActivity(intent);
             }
         });
 

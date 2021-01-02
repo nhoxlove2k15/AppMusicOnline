@@ -60,7 +60,8 @@ public class SongAdapterGridView extends BaseAdapter {
         TextView txtName = (TextView) convertView.findViewById(R.id.txtPersonalSongName) ;
         TextView txtArtist = (TextView) convertView.findViewById(R.id.txtPersonalSongArtist) ;
 
-
+        txtName.setSelected(true);
+        txtArtist.setSelected(true);
         SongAndArtist object = arr_personal_song.get(position);
 
 
