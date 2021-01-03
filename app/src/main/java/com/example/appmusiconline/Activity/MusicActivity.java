@@ -56,7 +56,7 @@ public class MusicActivity extends AppCompatActivity {
         txtArtist.setSelected(true);
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        //initMediaPlayer();
+        initMediaPlayer();
         prepareMusic();
         //nhấn nút play
         btnPlay.setOnClickListener(new View.OnClickListener() {
@@ -159,7 +159,9 @@ public class MusicActivity extends AppCompatActivity {
         String url = arraySong.getLinkSong();
         Toast.makeText(this, "Loading song...", Toast.LENGTH_LONG).show();
         try {
-            initMediaPlayer();
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
             mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(url));
             mediaPlayer.prepareAsync();
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -169,9 +171,6 @@ public class MusicActivity extends AppCompatActivity {
                     txtArtist.setText(arraySong.getArtistSong());
                     txtTitle.setText(arraySong.getNameSong());
                     txtTotalTime.setText(arraySong.getTimeSong());
-                    if (mediaPlayer.isPlaying()) {
-                        mediaPlayer.stop();
-                    }
                     mediaPlayer.start();
                     btnPlay.setImageResource(R.drawable.pause_);
                 }
