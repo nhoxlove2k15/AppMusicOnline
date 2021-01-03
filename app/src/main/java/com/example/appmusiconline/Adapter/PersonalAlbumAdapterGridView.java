@@ -62,8 +62,6 @@ public class PersonalAlbumAdapterGridView extends BaseAdapter {
         TextView txtArtist = (TextView) convertView.findViewById(R.id.txtPersonalAlbumArtist) ;
 //        TextView txtTime = (TextView) convertView.findViewById(R.id.txtPersonalAlbumTime);
 
-        txtName.setSelected(true);
-        txtArtist.setSelected(true);
         PersonalAlbum object = arr_personal_album.get(position);
 
 
