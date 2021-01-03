@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,10 +56,7 @@ public class MusicActivity extends AppCompatActivity {
         txtArtist.setSelected(true);
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        initMediaPlayer();
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-        }
+        //initMediaPlayer();
         prepareMusic();
         //nhấn nút play
         btnPlay.setOnClickListener(new View.OnClickListener() {
@@ -85,69 +83,7 @@ public class MusicActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        //nhấn nút next song
-//        btnNextSong.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                position++;
-//                if (position > arraySong.size() - 1) {
-//                    position = 0;
-//                }
-//                if (mediaPlayer.isPlaying()) {
-//                    //nếu đang phát nhạc -> chuyển bài sẽ tự động phát
-//                    mediaPlayer.stop();
-//                    MusicActivity.this.initMediaPlayer();
-//                    mediaPlayer.start();
-//                    btnPlay.setImageResource(R.drawable.pause_);
-//                } else {
-//                    //nếu đang không phát nhạc -> chuyển bài sẽ không tự động phát
-//                    MusicActivity.this.initMediaPlayer();
-//                    btnPlay.setImageResource(R.drawable.play);
-//                }
-//                //updateTime();
-//            }
-//        });
 
-        //nhấn nút previous song
-//        btnPrevSong.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                position--;
-//                if (position < 0) {
-//                    position = arraySong.size() - 1;
-//                }
-//                if (mediaPlayer.isPlaying()) {
-//                    //nếu đang phát nhạc -> chuyển bài sẽ tự động phát
-//                    mediaPlayer.stop();
-//                    MusicActivity.this.initMediaPlayer();
-//                    mediaPlayer.start();
-//                    btnPlay.setImageResource(R.drawable.pause_);
-//                } else {
-//                    //nếu đang không phát nhạc -> chuyển bài sẽ không tự động phát
-//                    MusicActivity.this.initMediaPlayer();
-//                    btnPlay.setImageResource(R.drawable.play);
-//                }
-//                //updateTime();
-//            }
-//        });
-
-        //tua tới 10s
-//        btnNext10s.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 10000); //cộng thêm 10000ms (10s)
-//                updateTime();
-//            }
-//        });
-
-        //tua lui 10s
-//        btnPrev10s.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 10000); //trừ đi 10000ms (10s)
-//                updateTime();
-//            }
-//        });
 
         //nhấn nút volume
         btnVolumeOn.setOnClickListener(new View.OnClickListener() {
@@ -223,7 +159,8 @@ public class MusicActivity extends AppCompatActivity {
         String url = arraySong.getLinkSong();
         Toast.makeText(this, "Loading song...", Toast.LENGTH_LONG).show();
         try {
-            mediaPlayer.setDataSource(url);
+            initMediaPlayer();
+            mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(url));
             mediaPlayer.prepareAsync();
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -232,6 +169,9 @@ public class MusicActivity extends AppCompatActivity {
                     txtArtist.setText(arraySong.getArtistSong());
                     txtTitle.setText(arraySong.getNameSong());
                     txtTotalTime.setText(arraySong.getTimeSong());
+                    if (mediaPlayer.isPlaying()) {
+                        mediaPlayer.stop();
+                    }
                     mediaPlayer.start();
                     btnPlay.setImageResource(R.drawable.pause_);
                 }
