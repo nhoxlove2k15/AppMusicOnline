@@ -301,20 +301,7 @@ public class MusicActivity extends AppCompatActivity {
     private void initMediaPlayer() {
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//        mediaPlayer = MediaPlayer.create(MusicActivity.this, arraySong.get(position).getFile());
-//        txtTitle.setText(arraySong.get(position).getTitle());
-//        txtArtist.setText(arraySong.get(position).getArtist());
-//        setTotalTime();
-//        updateTime();
     }
-
-//    private void addSong() {
-//        arraySong = new ArrayList<>();
-//        arraySong.add(new Song("Sweet Dreams", "Eurythmics, Annie Lennox, Dave Stewart", R.raw.sweet_dreams));
-//        arraySong.add(new Song("Pumped Up Kicks", "Foster The People", R.raw.pumped_up_kicks));
-//        arraySong.add(new Song("Caramelldansen", "Caramella Girls", R.raw.caramelldansen));
-//        arraySong.add(new Song("Renai Circulation", "Hanazawa Kana", R.raw.renai_circulation));
-//    }
 
     public void mapping() {
         coverArt = findViewById(R.id.thumbnail);
