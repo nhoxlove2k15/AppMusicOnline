@@ -2,7 +2,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/scrollViewAlumHottrend"
 
 
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -82,7 +81,6 @@
 
             android:layout_below="@+id/viewPagerMain"/>
 
-
         <RelativeLayout
             android:id="@+id/textxyz"
             android:layout_width="401dp"
@@ -94,23 +92,9 @@
             android:layout_width="match_parent"
             android:layout_height="700dp"
             android:layout_below="@+id/btnSearch"
-            android:id="@+id/snowfall"
-            app:snowflake="@drawable/hoamai"
+
+            app:snowflake="@drawable/snowflake"
             app:spawnRate="1000" />
-<!--        <ImageView-->
-<!--            android:id="@+id/imageViewBaolixi"-->
-<!--            android:layout_width="80dp"-->
-<!--            android:layout_height="80dp"-->
-<!--            android:layout_marginTop="@dimen/margin_top_image"-->
-
-
-<!--            app:srcCompat="@drawable/baolixi" />-->
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/imageViewBaolixi"
-            android:layout_width="80dp"
-            android:layout_marginTop="@dimen/margin_top_image"
-            android:layout_height="80dp"
-            android:src="@drawable/lixi"/>
 
         <!--        <fragment-->
 <!--            android:layout_width="match_parent"-->

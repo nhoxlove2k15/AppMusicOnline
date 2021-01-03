@@ -50,6 +50,8 @@ public class AlbumAdapterGridView extends BaseAdapter {
         ImageView imgAlbum = (ImageView) view.findViewById(R.id.imgAlbum);
         TextView txtAlbumTitle = (TextView) view.findViewById(R.id.txtAlbumTitle);
         TextView txtAlbumArtist = (TextView) view.findViewById(R.id.txtAlbumArtist);
+        txtAlbumTitle.setSelected(true);
+        txtAlbumArtist.setSelected(true);
 
         Picasso.with(context).load(arr_album_adapter.get(position).getAlbumHinh()).into(imgAlbum);
         txtAlbumArtist.setText(arr_album_adapter.get(position).getArtistName());

@@ -62,6 +62,8 @@ public class PersonalPlaylistAdapterGridView extends BaseAdapter {
         TextView txtArtist = (TextView) convertView.findViewById(R.id.txtPersonalPlaylistSum) ;
 //        TextView txtTime = (TextView) convertView.findViewById(R.id.txtPersonalPlaylistTime);
 
+        txtName.setSelected(true);
+        txtArtist.setSelected(true);
         PersonalPlaylist object = arr_personal_playlist.get(position);
 
 

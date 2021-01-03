@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.example.appmusiconline.Fragment.Fragment_getstart;
 import com.example.appmusiconline.Fragment.Fragment_getstart_1;
 import com.example.appmusiconline.Fragment.Fragment_getstart_2;
+import com.example.appmusiconline.Fragment.Fragment_personal_song;
 
 import java.util.List;
 
@@ -17,10 +18,7 @@ public class SildePagerAdapter extends FragmentPagerAdapter {
 
 
     public SildePagerAdapter(@NonNull  FragmentManager fm){
-
         super(fm);
-      //  fm.beginTransaction().setCustomAnimations(R.anim.anim_enter,R.anim.anim_exit);
-
     }
     @NonNull
     @Override

@@ -6,7 +6,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import com.example.appmusiconline.Fragment.Fragment_getstart;
@@ -14,14 +14,13 @@ import com.example.appmusiconline.Fragment.Fragment_getstart_1;
 import com.example.appmusiconline.Fragment.Fragment_getstart_2;
 import com.example.appmusiconline.R;
 import com.example.appmusiconline.SildePagerAdapter;
-import com.ramotion.paperonboarding.PaperOnboardingPage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private ViewPager pager;
-    private PagerAdapter pagerAdapter;
+    private ViewPager pager ;
+    private PagerAdapter pagerAdapter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         pager = findViewById(R.id.viewPagerGetStart);
-        pagerAdapter = new SildePagerAdapter(getSupportFragmentManager());
+        pagerAdapter = new SildePagerAdapter(getSupportFragmentManager() ) ;
         pager.setAdapter(pagerAdapter);
-
+      //  startActivity(new Intent(MainActivity.this , TrangchuActivity.class));
     }
 }
