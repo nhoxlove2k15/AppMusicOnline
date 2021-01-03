@@ -17,13 +17,17 @@ public class SildePagerAdapter extends FragmentPagerAdapter {
 
 
     public SildePagerAdapter(@NonNull  FragmentManager fm){
+
         super(fm);
+      //  fm.beginTransaction().setCustomAnimations(R.anim.anim_enter,R.anim.anim_exit);
+
     }
     @NonNull
     @Override
     public Fragment getItem(int position) {
         switch (position){
             case 0 :
+
                 return new Fragment_getstart();
             case 1 :
                 return new Fragment_getstart_1();
