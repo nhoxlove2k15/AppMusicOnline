@@ -14,7 +14,6 @@ import com.example.appmusiconline.Fragment.Fragment_getstart_1;
 import com.example.appmusiconline.Fragment.Fragment_getstart_2;
 import com.example.appmusiconline.R;
 import com.example.appmusiconline.SildePagerAdapter;
-import com.ramotion.paperonboarding.PaperOnboardingPage;
 
 import java.util.ArrayList;
 import java.util.List;
