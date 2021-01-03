@@ -2,7 +2,6 @@ package com.example.appmusiconline.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -10,7 +9,6 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -36,9 +34,9 @@ public class MusicActivity extends AppCompatActivity {
     Handler handler = new Handler();
 
     Intent intent;
-    Bundle bundle ;
-    PersonalSong arraySong ;
-    @SuppressLint("ClickableViewAccessibility")
+    Bundle bundle;
+    PersonalSong arraySong;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +47,7 @@ public class MusicActivity extends AppCompatActivity {
         mediaPlayer.start();
         progressBar.setMax(100);
 
-        intent = getIntent() ;
+        intent = getIntent();
         bundle = intent.getBundleExtra("darkwa1");
         arraySong = (PersonalSong) bundle.getSerializable("darkwa");
         txtTitle.setSelected(true);
@@ -62,12 +60,11 @@ public class MusicActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mediaPlayer.isPlaying()) {
-                    //đang phát -> chuyển sang hình play
-                    handler.removeCallbacks(updater);
+                    //đang phát -> ngừng -> chuyển sang hình play
                     mediaPlayer.pause();
                     btnPlay.setImageResource(R.drawable.play);
                 } else {
-                    //đang ngừng -> chuyển sang hình pause
+                    //đang ngừng -> phát -> chuyển sang hình pause
                     mediaPlayer.start();
                     btnPlay.setImageResource(R.drawable.pause_);
                     updateSeekBar();
@@ -92,6 +89,7 @@ public class MusicActivity extends AppCompatActivity {
                 updateSeekBar();
             }
         });
+
         //nhấn nút close
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +98,6 @@ public class MusicActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
         //nhấn nút volume
         btnVolumeOn.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +118,7 @@ public class MusicActivity extends AppCompatActivity {
             }
         });
 
-        //VolumeBar
+        //chỉnh voume bằng volume bar
         volumeBar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
         volumeBar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
         if (volumeBar.getProgress() == 0) {
@@ -161,15 +158,23 @@ public class MusicActivity extends AppCompatActivity {
                 }
         );
 
-        progressBar.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
+        //tua nhạc bằng progress bar
+        progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                SeekBar seekBar = (SeekBar) view;
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
                 int playPosition = (mediaPlayer.getDuration() / 100) * seekBar.getProgress();
                 mediaPlayer.seekTo(playPosition);
                 txtElapsedTime.setText(milliSecondsToTimer(mediaPlayer.getCurrentPosition()));
-                return false;
             }
         });
     }
@@ -179,7 +184,7 @@ public class MusicActivity extends AppCompatActivity {
         try {
             mediaPlayer.setDataSource(url);
             mediaPlayer.prepareAsync();
-            Picasso.with(MusicActivity.this ).load(arraySong.getImageSong()).into(coverArt);
+            Picasso.with(MusicActivity.this).load(arraySong.getImageSong()).into(coverArt);
             txtArtist.setText(arraySong.getArtistSong());
             txtTitle.setText(arraySong.getNameSong());
             txtTotalTime.setText(arraySong.getTimeSong());
@@ -221,19 +226,18 @@ public class MusicActivity extends AppCompatActivity {
     private final Runnable updater = new Runnable() {
         @Override
         public void run() {
-            updateSeekBar();
             long currentDuration = mediaPlayer.getCurrentPosition();
             txtElapsedTime.setText(milliSecondsToTimer(currentDuration));
+            updateSeekBar();
         }
     };
 
     private void updateSeekBar() {
-        if (mediaPlayer.isPlaying()) {
-            progressBar.setProgress((int)(((float) mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration()) * 100));
-            handler.postDelayed(updater, 1000);
-        }
+        progressBar.setProgress((int) (((float) mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration()) * 100));
+        handler.postDelayed(updater, 1000);
     }
 
+    //hiển thị thời gian
     private String milliSecondsToTimer(long milliSeconds) {
         String timerString = "";
         String secondString;
