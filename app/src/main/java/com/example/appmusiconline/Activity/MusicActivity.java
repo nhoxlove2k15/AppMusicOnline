@@ -2,23 +2,22 @@ package com.example.appmusiconline.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 import com.example.appmusiconline.Model.PersonalSong;
 import com.example.appmusiconline.R;
@@ -39,42 +38,60 @@ public class MusicActivity extends AppCompatActivity {
     Intent intent;
     Bundle bundle ;
     PersonalSong arraySong ;
-
-    int position = 0;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music);
 
         mapping();
+        initMediaPlayer();
+        mediaPlayer.start();
         progressBar.setMax(100);
 
-        intent =   getIntent() ;
+        intent = getIntent() ;
         bundle = intent.getBundleExtra("darkwa1");
         arraySong = (PersonalSong) bundle.getSerializable("darkwa");
         txtTitle.setSelected(true);
         txtArtist.setSelected(true);
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        initMediaPlayer();
-        prepareMusic();
+        prepareMediaPlayer();
         //nhấn nút play
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mediaPlayer.isPlaying()) {
                     //đang phát -> chuyển sang hình play
+                    handler.removeCallbacks(updater);
                     mediaPlayer.pause();
                     btnPlay.setImageResource(R.drawable.play);
                 } else {
                     //đang ngừng -> chuyển sang hình pause
                     mediaPlayer.start();
                     btnPlay.setImageResource(R.drawable.pause_);
+                    updateSeekBar();
                 }
-//                //updateTime();
             }
         });
 
+        //tua tới 10s
+        btnNext10s.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 10000); //cộng thêm 10000ms (10s)
+                updateSeekBar();
+            }
+        });
+
+        //tua lui 10s
+        btnPrev10s.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 10000); //cộng thêm 10000ms (10s)
+                updateSeekBar();
+            }
+        });
         //nhấn nút close
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +111,13 @@ public class MusicActivity extends AppCompatActivity {
                 } else {    //thanh âm lượng đang ở mức 0 thì unmute
                     MusicActivity.this.unMute();
                 }
+            }
+        });
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                btnPlay.setImageResource(R.drawable.play);
             }
         });
 
@@ -137,42 +161,34 @@ public class MusicActivity extends AppCompatActivity {
                 }
         );
 
-        progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        progressBar.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                mediaPlayer.seekTo(progressBar.getProgress());
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                SeekBar seekBar = (SeekBar) view;
+                int playPosition = (mediaPlayer.getDuration() / 100) * seekBar.getProgress();
+                mediaPlayer.seekTo(playPosition);
+                txtElapsedTime.setText(milliSecondsToTimer(mediaPlayer.getCurrentPosition()));
+                return false;
             }
         });
     }
 
-    public void prepareMusic() {
+    public void prepareMediaPlayer() {
         String url = arraySong.getLinkSong();
-        Toast.makeText(this, "Loading song...", Toast.LENGTH_LONG).show();
         try {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-            }
-            mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(url));
+            mediaPlayer.setDataSource(url);
             mediaPlayer.prepareAsync();
+            Picasso.with(MusicActivity.this ).load(arraySong.getImageSong()).into(coverArt);
+            txtArtist.setText(arraySong.getArtistSong());
+            txtTitle.setText(arraySong.getNameSong());
+            txtTotalTime.setText(arraySong.getTimeSong());
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mediaPlayer) {
-                    Picasso.with(MusicActivity.this ).load(arraySong.getImageSong()).into(coverArt);
-                    txtArtist.setText(arraySong.getArtistSong());
-                    txtTitle.setText(arraySong.getNameSong());
-                    txtTotalTime.setText(arraySong.getTimeSong());
                     mediaPlayer.start();
                     btnPlay.setImageResource(R.drawable.pause_);
+                    updateSeekBar();
                 }
             });
         } catch (IOException e) {
@@ -202,39 +218,41 @@ public class MusicActivity extends AppCompatActivity {
         volumeBar.setProgress(10);
     }
 
-//    private void updateTime() {
-//        final Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                SimpleDateFormat timeFormat = new SimpleDateFormat("mm:ss");
-//                txtElapsedTime.setText(timeFormat.format(mediaPlayer.getCurrentPosition()));
-//                progressBar.setProgress(mediaPlayer.getCurrentPosition());
-//                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//                    @Override
-//                    public void onCompletion(MediaPlayer mp) {
-//                        position++;
-//                        if (position > arraySong.size() - 1) {
-//                            position = 0;
-//                        }
-//                        if (mediaPlayer.isPlaying()) {
-//                            mediaPlayer.stop();
-//                        }
-//                        initMediaPlayer();
-//                        mediaPlayer.start();
-//                        btnPlay.setImageResource(R.drawable.pause_);
-//                        updateTime();
-//                    }
-//                });
-//                handler.postDelayed(this, 100);
-//            }
-//        }, 100);
-//    }
+    private final Runnable updater = new Runnable() {
+        @Override
+        public void run() {
+            updateSeekBar();
+            long currentDuration = mediaPlayer.getCurrentPosition();
+            txtElapsedTime.setText(milliSecondsToTimer(currentDuration));
+        }
+    };
 
-    private void setTotalTime() {
-        SimpleDateFormat timeFormat = new SimpleDateFormat("mm:ss");
-        txtTotalTime.setText(timeFormat.format(mediaPlayer.getDuration()));
-        progressBar.setMax(mediaPlayer.getDuration());
+    private void updateSeekBar() {
+        if (mediaPlayer.isPlaying()) {
+            progressBar.setProgress((int)(((float) mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration()) * 100));
+            handler.postDelayed(updater, 1000);
+        }
+    }
+
+    private String milliSecondsToTimer(long milliSeconds) {
+        String timerString = "";
+        String secondString;
+
+        int hours = (int) (milliSeconds / (1000 * 60 * 60));
+        int minutes = (int) (milliSeconds % (1000 * 60 * 60)) / (1000 * 60);
+        int seconds = (int) ((milliSeconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
+
+        if (hours > 0) {
+            timerString = hours + ":";
+        }
+        if (seconds < 10) {
+            secondString = "0" + seconds;
+        } else {
+            secondString = "" + seconds;
+        }
+
+        timerString = timerString + minutes + ":" + secondString;
+        return timerString;
     }
 
     private void initMediaPlayer() {
