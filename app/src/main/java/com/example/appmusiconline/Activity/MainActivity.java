@@ -6,6 +6,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -21,6 +22,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private ViewPager pager ;
     private PagerAdapter pagerAdapter ;
+    public static MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,5 +34,9 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter = new SildePagerAdapter(getSupportFragmentManager() ) ;
         pager.setAdapter(pagerAdapter);
       //  startActivity(new Intent(MainActivity.this , TrangchuActivity.class));
+    }
+    public static void initMediaPlayer() {
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
 }
