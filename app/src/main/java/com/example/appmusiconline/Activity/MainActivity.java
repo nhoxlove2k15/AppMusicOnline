@@ -6,7 +6,12 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+<<<<<<< HEAD
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+=======
 import android.graphics.Color;
+>>>>>>> 6b107133132faa2e029c7dc195e672cbb613f06e
 import android.os.Bundle;
 
 import com.example.appmusiconline.Fragment.Fragment_getstart;
@@ -20,8 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private ViewPager pager;
-    private PagerAdapter pagerAdapter;
+
+    private ViewPager pager ;
+    private PagerAdapter pagerAdapter ;
+    public static MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,5 +40,9 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter = new SildePagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
 
+    }
+    public static void initMediaPlayer() {
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
 }

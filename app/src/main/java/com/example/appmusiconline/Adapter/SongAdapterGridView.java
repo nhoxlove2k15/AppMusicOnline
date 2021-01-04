@@ -1,6 +1,8 @@
 package com.example.appmusiconline.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +12,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.appmusiconline.Activity.MusicActivity;
 import com.example.appmusiconline.Model.PersonalSong;
 import com.example.appmusiconline.Model.SongAndArtist;
 import com.example.appmusiconline.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SongAdapterGridView extends BaseAdapter {
@@ -67,8 +71,6 @@ public class SongAdapterGridView extends BaseAdapter {
         Picasso.with(context).load(object.getSongHinh()).into(imgSong);
         txtName.setText(object.getSongTitle());
         txtArtist.setText(object.getArtistName());
-
-
 //
 //        Animation animation = AnimationUtils.loadAnimation(context,R.anim.animation_personal_song);
 //        convertView.startAnimation(animation);
