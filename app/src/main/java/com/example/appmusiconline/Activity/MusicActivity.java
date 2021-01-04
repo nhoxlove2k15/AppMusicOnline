@@ -29,7 +29,7 @@ public class MusicActivity extends AppCompatActivity {
     ImageButton btnPrevSong, btnNextSong, btnPrev10s, btnNext10s, btnPlay;
     ImageButton btnLike, btnShuffle, btnRepeat, btnShare;
     ImageButton btnClose;
-    public MediaPlayer mediaPlayer;
+
     AudioManager audioManager;
     Handler handler = new Handler();
 
@@ -43,8 +43,9 @@ public class MusicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_music);
 
         mapping();
-        initMediaPlayer();
-        mediaPlayer.start();
+      //  initMediaPlayer();
+        MainActivity.initMediaPlayer();
+        MainActivity.mediaPlayer.start();
         progressBar.setMax(100);
 
         intent = getIntent();
@@ -55,17 +56,25 @@ public class MusicActivity extends AppCompatActivity {
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         prepareMediaPlayer();
+        if (MainActivity.mediaPlayer.isPlaying()) {
+            MainActivity.mediaPlayer.stop();
+            MainActivity.initMediaPlayer();
+
+        }
+        MainActivity.mediaPlayer.start();
+        btnPlay.setImageResource(R.drawable.pause_);
+        updateSeekBar();
         //nhấn nút play
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mediaPlayer.isPlaying()) {
+                if (MainActivity.mediaPlayer.isPlaying()) {
                     //đang phát -> ngừng -> chuyển sang hình play
-                    mediaPlayer.pause();
+                    MainActivity.mediaPlayer.pause();
                     btnPlay.setImageResource(R.drawable.play);
                 } else {
                     //đang ngừng -> phát -> chuyển sang hình pause
-                    mediaPlayer.start();
+                    MainActivity.mediaPlayer.start();
                     btnPlay.setImageResource(R.drawable.pause_);
                     updateSeekBar();
                 }
@@ -76,7 +85,7 @@ public class MusicActivity extends AppCompatActivity {
         btnNext10s.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 10000); //cộng thêm 10000ms (10s)
+                MainActivity.mediaPlayer.seekTo(MainActivity.mediaPlayer.getCurrentPosition() + 10000); //cộng thêm 10000ms (10s)
                 updateSeekBar();
             }
         });
@@ -85,7 +94,7 @@ public class MusicActivity extends AppCompatActivity {
         btnPrev10s.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 10000); //cộng thêm 10000ms (10s)
+                MainActivity.mediaPlayer.seekTo(MainActivity.mediaPlayer.getCurrentPosition() - 10000); //cộng thêm 10000ms (10s)
                 updateSeekBar();
             }
         });
@@ -111,7 +120,7 @@ public class MusicActivity extends AppCompatActivity {
             }
         });
 
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        MainActivity.mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 btnPlay.setImageResource(R.drawable.play);
@@ -172,9 +181,9 @@ public class MusicActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                int playPosition = (mediaPlayer.getDuration() / 100) * seekBar.getProgress();
-                mediaPlayer.seekTo(playPosition);
-                txtElapsedTime.setText(milliSecondsToTimer(mediaPlayer.getCurrentPosition()));
+                int playPosition = (MainActivity.mediaPlayer.getDuration() / 100) * seekBar.getProgress();
+                MainActivity.mediaPlayer.seekTo(playPosition);
+                txtElapsedTime.setText(milliSecondsToTimer(MainActivity.mediaPlayer.getCurrentPosition()));
             }
         });
     }
@@ -182,20 +191,31 @@ public class MusicActivity extends AppCompatActivity {
     public void prepareMediaPlayer() {
         String url = arraySong.getLinkSong();
         try {
-            mediaPlayer.setDataSource(url);
-            mediaPlayer.prepareAsync();
+            MainActivity.mediaPlayer.setDataSource(url);
+            MainActivity.mediaPlayer.prepareAsync();
             Picasso.with(MusicActivity.this).load(arraySong.getImageSong()).into(coverArt);
             txtArtist.setText(arraySong.getArtistSong());
             txtTitle.setText(arraySong.getNameSong());
             txtTotalTime.setText(arraySong.getTimeSong());
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mediaPlayer) {
-                    mediaPlayer.start();
-                    btnPlay.setImageResource(R.drawable.pause_);
-                    updateSeekBar();
-                }
-            });
+//            if (MainActivity.mediaPlayer.isPlaying()) {
+//                MainActivity.mediaPlayer.stop();
+//                MainActivity.initMediaPlayer();
+//                MainActivity.mediaPlayer.start();
+//                btnPlay.setImageResource(R.drawable.pause_);
+//                updateSeekBar();
+//            }
+//            MainActivity.mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//                @Override
+//                public void onPrepared(MediaPlayer mediaPlayer) {
+//                    if (MainActivity.mediaPlayer.isPlaying()) {
+//                        MainActivity.mediaPlayer.stop();
+//                        MainActivity.initMediaPlayer();
+//                    }
+//                    MainActivity.mediaPlayer.start();
+//                    btnPlay.setImageResource(R.drawable.pause_);
+//                    updateSeekBar();
+//                }
+//            });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -226,14 +246,14 @@ public class MusicActivity extends AppCompatActivity {
     private final Runnable updater = new Runnable() {
         @Override
         public void run() {
-            long currentDuration = mediaPlayer.getCurrentPosition();
+            long currentDuration = MainActivity.mediaPlayer.getCurrentPosition();
             txtElapsedTime.setText(milliSecondsToTimer(currentDuration));
             updateSeekBar();
         }
     };
 
     private void updateSeekBar() {
-        progressBar.setProgress((int) (((float) mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration()) * 100));
+        progressBar.setProgress((int) (((float) MainActivity.mediaPlayer.getCurrentPosition() / MainActivity.mediaPlayer.getDuration()) * 100));
         handler.postDelayed(updater, 1000);
     }
 
@@ -259,10 +279,7 @@ public class MusicActivity extends AppCompatActivity {
         return timerString;
     }
 
-    private void initMediaPlayer() {
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-    }
+
 
     public void mapping() {
         coverArt = findViewById(R.id.thumbnail);

@@ -1,8 +1,6 @@
 package com.example.appmusiconline.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.appmusiconline.Activity.MusicActivity;
 import com.example.appmusiconline.Model.PersonalSong;
 import com.example.appmusiconline.R;
 import com.squareup.picasso.Picasso;
@@ -62,26 +59,15 @@ public class PersonalSongAdapterGridView extends BaseAdapter {
         TextView txtName = (TextView) convertView.findViewById(R.id.txtPersonalSongName) ;
         TextView txtArtist = (TextView) convertView.findViewById(R.id.txtPersonalSongArtist) ;
 
-        txtName.setSelected(true);
-        txtArtist.setSelected(true);
-        final PersonalSong object = arr_personal_song.get(position);
+
+        PersonalSong object = arr_personal_song.get(position);
 
 
         Picasso.with(context).load(object.getImageSong()).into(imgSong);
         txtName.setText(object.getNameSong());
         txtArtist.setText(object.getArtistSong());
 
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // man hinh play nhac
-                Intent intent = new Intent(context, MusicActivity.class) ;
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("darkwa", object);
-                intent.putExtra("darkwa1", bundle);
-                context.startActivity(intent);
-            }
-        });
+
 //
 //        Animation animation = AnimationUtils.loadAnimation(context,R.anim.animation_personal_song);
 //        convertView.startAnimation(animation);
